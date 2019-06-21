@@ -19,16 +19,25 @@
   color: white;
 }
 
-.jumbotron {
-  width: 100%;
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 
+/*  Main Page Stylings  */
 
-/*
-.row {
-  border: 5px solid black;
-}*/
+.jumbotron {
+  width: 100%;
+}
 
 .col-sm-4.ani {
   border: 5px solid black;
@@ -43,15 +52,50 @@
   margin-top: 20px;
 }
 
-.App-link {
-  color: #61dafb;
+
+/*   Profile Page Stylings   */
+
+.jumbotron.text-center.profile-page {
+  padding: 10px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.typeselect {
+  width: 200px;
 }
+
+.form-control {
+  border: 1px solid black;
+}
+
+.list-group.monthly {
+  margin-left: 20px;
+}
+
+.col-sm-6.new-expense {
+  background-color: orange;
+}
+
+.col-sm-6.add-new {
+  font-size: 25px;
+}
+
+table {
+  margin-top: 40px;
+  overflow: scroll;
+}
+
+.btn.btn-signin.left {
+  margin-left: 20px;
+  float:left;
+  background-image: "./leftarrow.png"
+}
+
+.btn.btn-signin.right {
+  float:right;
+}
+
+#Month {
+  font-size: 25px;
+}
+
+
