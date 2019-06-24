@@ -88,13 +88,25 @@
   margin-top: 30px; 
 }
 
+#signupform {
+  background-color: white;
+  margin-left: 65px;
+}
+
 .left {
   margin-left: 20px;
   float:left;
 }
 
+
 input {
   height: 40px;
+  margin-top: 15px;
+}
+
+#submitting {
+  margin-left: 80px;
+  margin-top: 40px;
 }
 
 .right {
@@ -119,6 +131,14 @@ button:focus {
 
 .list-group.monthly {
   max-height: 150px;
+}
+
+.container.form {
+  text-align: center;
+}
+
+.row {
+  text-align: center;
 }
 
 .jumbotron.text-center.profile-page.table-dark {

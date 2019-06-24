@@ -32,7 +32,6 @@ class ProfilePage extends React.Component {
 		    	console.log("Successful");
 		  	}).catch(console.log("error"));
 		});
-		
 	}
 
 	handleNewExpense() {
