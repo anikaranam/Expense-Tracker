@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  font-family: "Helvetica"
 }
 
 .App-logo {
@@ -61,6 +62,7 @@
 
 .typeselect {
   width: 200px;
+  font-size: 20px;
 }
 
 .form-control {
@@ -77,25 +79,71 @@
 
 .col-sm-6.add-new {
   font-size: 25px;
+  margin: 0 auto;
 }
 
-table {
-  margin-top: 40px;
-  overflow: scroll;
+.container.category-view {
+  overflow: scroll !important;
+  max-height: 300px;
+  margin-top: 30px; 
 }
 
-.btn.btn-signin.left {
+.left {
   margin-left: 20px;
   float:left;
-  background-image: "./leftarrow.png"
 }
 
-.btn.btn-signin.right {
+input {
+  height: 40px;
+}
+
+.right {
   float:right;
+}
+
+.list-group-item.active {
+  background-color: #444444
+}
+
+button:focus {
+  outline: none;
 }
 
 #Month {
   font-size: 25px;
+}
+
+#date {
+  font-size: 15px;
+}
+
+.list-group.monthly {
+  max-height: 150px;
+}
+
+.jumbotron.text-center.profile-page.table-dark {
+  background-color: #444444;
+  color: white;
+  font-size: 10px;
+}
+
+div {
+  overflow-x: hidden;
+  font-size: 20px;
+}
+
+input {
+  font-size: 15px;
+}
+
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 5px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, .5);
+  -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
 }
 
 

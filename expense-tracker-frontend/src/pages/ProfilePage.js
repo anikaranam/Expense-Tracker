@@ -9,29 +9,95 @@ class ProfilePage extends React.Component {
 		super(props)
 		this.handleNewExpense = this.handleNewExpense.bind(this)
 		this.handleChange = this.handleChange.bind(this)
+		this.handleClick = this.handleClick.bind(this)
+		this.state = {
+			addName: '',
+			addDate: '',
+			addCost: 0.0,
+			addType: ''
+		}
+	}
+
+	addExpense(name, date, type, cost) {
+		this.setState({addName: name, addType: type, addCost: cost, addDate: date}, () => {
+			alert('hello');
+			fetch('http://localhost:9000/profile', {
+			    method: 'POST',
+			    body: JSON.stringify(this.state),
+			    headers: {
+	    			'Content-Type': 'application/json',
+	    			'accept':'application/json'
+	  			}
+		  	}).then(function(response) {
+		    	console.log("Successful");
+		  	}).catch(console.log("error"));
+		});
+		
 	}
 
 	handleNewExpense() {
 		let name = document.getElementById('expenseName').value;
 		let date = document.getElementById('date').value;
-		alert(name + ' ' + date);
+		let type = document.getElementById('typeSelector').value;
+		let cost = document.getElementById('cost').value;
+		alert(name + ' ' + date + ' ' + type + ' ' + cost);
+		this.addExpense(name, date, type, cost);
 	}
 
 	handleChange(e) {
 		console.log(e.target.value);
 	}
 
+	/*
+	callAPI(type) {
+		fetch("http://localhost:9000/" + type)
+        .then(res => res.json())
+        .then((data) => {
+          this.setState({ name: data });
+          console.log(this.state.name);
+        })
+        .catch(() => {
+          console.log();
+        });
+	}*/
+
+	handleClick(e) {
+		let activeId = e.target.id;
+		//document.getElementById(activeId).className = "list-group-item active";
+		e.target.className = "list-group-item active";
+		for (let i = 0; i < 8; i++) {
+			if (i != activeId) {
+				document.getElementById(i).className = "list-group-item";
+			}
+		}
+
+		//alert(e.target.innerHTML + ' has been selected');
+
+		//this.callAPI(e.target.innerHTML.toLowerCase());
+	}
+
+	rendertable() {
+		return (
+			<tr>
+				<th scope="row">2</th>
+		        <td>Auto to Tuition</td>
+   		        <td>$200</td>
+		        <td>20/06/2019</td>
+			</tr>
+		)
+	}
+
 	render() {
 		return (
 		    <div className="App">
-		      <div className="jumbotron text-center profile-page">
+		      <div className="jumbotron text-center profile-page table-dark">
 		        <h1>Anirudh Karanam</h1>
 		      </div>
 		      <div className="row">
 		      	<div className="col-sm-6">
-			      	<button className="btn btn-signin left glyphicon glyphicon-alert" id="left">Left</button>
+			      	<button className="left" id="left"><span className="glyphicon glyphicon-triangle-left"></span></button>
 			      	<label id="Month">June 2019</label>
-			      	<button className="btn btn-signin right" id="right">Right</button>
+			      	<button className="right" id="right"><span className="glyphicon glyphicon-triangle-right"></span></button>
 		      	</div>
 		      	<div className="col-sm-6 add-new">
 		      	Add a new expense</div>
@@ -39,9 +105,14 @@ class ProfilePage extends React.Component {
 		      <div className="row">
 		      	<div className="col-sm-6">
 		      		<div className="list-group monthly">
-					  <a href="#" className="list-group-item">Food</a>
-					  <a href="#" className="list-group-item">Groceries</a>
-					  <a href="#" className="list-group-item">Rent</a>
+					  <button id="0" onClick={this.handleClick} className="list-group-item">Food</button>
+					  <button id="1" onClick={this.handleClick} className="list-group-item">Groceries</button>
+					  <button id="2" onClick={this.handleClick} className="list-group-item">Rent</button>
+					  <button id="3" onClick={this.handleClick} className="list-group-item">Household</button>
+					  <button id="4" onClick={this.handleClick} className="list-group-item">Electronics</button>
+					  <button id="5" onClick={this.handleClick} className="list-group-item">Travel/Commute</button>
+					  <button id="6" onClick={this.handleClick} className="list-group-item">Stationery</button>
+					  <button id="7" onClick={this.handleClick} className="list-group-item">Miscellaneous</button>
 					</div>
 		      	</div>
 		      	<div className="row col-sm-6">
@@ -49,14 +120,21 @@ class ProfilePage extends React.Component {
 		      			<input type="text" id="expenseName" className="form-control" placeholder="Expense name" />
 		      		</div>
 		      		<div className="typeselect">
-		      			<input className="form-control" id="date" type="date" placeholder="Date" />
+			      		<div className="container">
+			      			<input className="form-control" id="cost" type="number" placeholder="Cost" />
+			      		</div>
 		      		</div>
 		      		<div className="typeselect">
-						<select className="form-control" onChange={this.handleChange}>
+		      			<div className="container">
+		      				<input className="form-control" id="date" type="date" placeholder="Date" />
+		      			</div>
+		      		</div>
+		      		<div className="typeselect ani">
+						<select className="form-control" onChange={this.handleChange} id="typeSelector">
 						  <option value="Food">Food</option>
 						  <option value="Groceries">Groceries</option>
 						  <option value="Rent">Rent</option>
-						  <option value="Household expenses">Household expenses</option>
+						  <option value="Household">Household</option>
 						  <option value="Electronics">Electronics</option>
 						  <option value="Travel/Commute">Travel/Commute</option>
 						  <option value="Stationery">Stationery</option>
@@ -64,39 +142,22 @@ class ProfilePage extends React.Component {
 						</select>
 					</div>
 					<div className="container">
-		      			<button type="submit" className="btn btn-primary" onClick={this.handleNewExpense}>Submit</button>
+		      			<button type="submit" className="btn btn-dark" onClick={this.handleNewExpense}>Submit</button>
 		      		</div>
 		      	</div>
 		      </div>
-		      <div className="container">
-		      <table className="table" style={{overflow: "scroll"}}>
-				  <thead className="thead-light">
+		      <div className="container category-view">
+		      <table className="table">
+				  <thead className="table-dark">
 				    <tr>
 				      <th scope="col">No.</th>
 				      <th scope="col">Name</th>
+				      <th scope="col">Cost</th>
 				      <th scope="col">Date</th>
-				      <th scope="col">Type of Expense</th>
 				    </tr>
 				  </thead>
 				  <tbody>
-				    <tr>
-				      <th scope="row">1</th>
-				      <td>Ahmed Bazaar</td>
-				      <td>21/06/2019</td>
-				      <td>Groceries</td>
-				    </tr>
-				    <tr>
-				      <th scope="row">2</th>
-				      <td>Auto to Tuition</td>
-				      <td>20/06/2019</td>
-				      <td>Travel/Commute</td>
-				    </tr>
-				    <tr>
-				      <th scope="row">3</th>
-				      <td>Starbucks</td>
-				      <td>19/06/2019</td>
-				      <td>Food</td>
-				    </tr>
+				    {this.rendertable()}
 				  </tbody>
 				</table>
 			  </div>
