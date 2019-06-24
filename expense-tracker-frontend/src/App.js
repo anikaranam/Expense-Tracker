@@ -33,7 +33,7 @@ function App() {
       </div>
       <hr />
       <div className="row">
-        <a href="ww.google.com" className="col-sm-12"><h4>If you don't have an account yet, click here to sign up</h4></a>
+        <a href="www.google.com" className="col-sm-12"><h4>If you don't have an account yet, click here to sign up</h4></a>
       </div>
     </div>
   );

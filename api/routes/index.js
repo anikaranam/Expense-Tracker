@@ -41,7 +41,7 @@ router.post('/profile', function(req,res,next) {
 	let cost = req.body["addCost"]
 	let type = req.body["addType"]
 
-	con.query("INSERT INTO Expenses (UserID, Name, Date, Type, Cost) VALUES ('" + 1 + "', '"+ name + "', '" + date + "', '" + type + "', '" + cost + "')", function (err, result, fields) {
+	con.query("INSERT INTO Expenses (UserName, Name, Date, Type, Cost) VALUES ('" + 1 + "', '"+ name + "', '" + date + "', '" + type + "', '" + cost + "')", function (err, result, fields) {
 			if (err) throw err;
 	    	res.send(result);	
 		});
@@ -98,6 +98,29 @@ router.get('/signup', function(req, res, next) {
 	con.end();
 });
 
+//    LISTING MONTHLY EXPENSES FOR A USER    //
+router.get('/expenses', function(req, res, next) {
+
+	var con = mysql.createConnection({
+	  host: "localhost",
+	  user: "root",
+	  password: "ravi",
+	  database: "ExpenseTracker"
+	});
+
+	con.connect();
+
+	let name = req.query["name"];
+	let type = req.query["type"];
+
+	con.query("SELECT Name, Date, Cost FROM Expenses WHERE Name = '" + name + "' AND Type = '" + type + "'", function (err, result, fields) {
+			if (err) throw err;
+	    	res.send(result);	
+		});
+
+	con.end();
+
+});
 
 
 //     ADDING A NEW USER    //
@@ -126,8 +149,6 @@ router.post('/signup', function(req,res,next) {
 			if (err) throw err;
 	    	res.send(result);	
 		});
-
-	console.log("hellloo");
 
 	con.end();
 });

@@ -14,7 +14,12 @@ class ProfilePage extends React.Component {
 			addName: '',
 			addDate: '',
 			addCost: 0.0,
-			addType: ''
+			addType: '',
+			tableValues: [{
+				Name: '',
+				Cost: 0.0,
+				Date: ''
+			}]
 		}
 	}
 
@@ -64,26 +69,80 @@ class ProfilePage extends React.Component {
 		let activeId = e.target.id;
 		//document.getElementById(activeId).className = "list-group-item active";
 		e.target.className = "list-group-item active";
-		for (let i = 0; i < 8; i++) {
+		for (let i = 10; i < 18; i++) {
 			if (i != activeId) {
 				document.getElementById(i).className = "list-group-item";
 			}
 		}
+
+		let type = e.target.innerHTML;
+
+		fetch("http://localhost:9000/expenses?name=ani&type=" + type)
+        .then(res => res.json())
+        .then((data) => {
+          //this.setState({ name: data });
+          //console.log(this.state.name);
+          this.setState({tableValues: data}, () => {
+          	console.log(this.state.tableValues[0]);
+          	this.rendertable(this.state.tableValues);
+          });
+          //console.log(data[0])
+        })
+        .catch(() => {
+          console.log();
+        });
+
+
 
 		//alert(e.target.innerHTML + ' has been selected');
 
 		//this.callAPI(e.target.innerHTML.toLowerCase());
 	}
 
-	rendertable() {
-		return (
-			<tr>
-				<th scope="row">2</th>
-		        <td>Auto to Tuition</td>
-   		        <td>$200</td>
-		        <td>20/06/2019</td>
-			</tr>
-		)
+	rendertable(values) {
+
+		/*fetch("http://localhost:9000/" + type)
+        .then(res => res.json())
+        .then((data) => {
+          this.setState({ name: data });
+          console.log(this.state.name);
+        })
+        .catch(() => {
+          console.log();
+        });*/
+
+        /*if (values == undefined) {
+        	return (
+				<tr>
+					<th scope="row">2</th>
+			        <td>Starbucks</td>
+	   		        <td>$200</td>
+			        <td>20/06/2019</td>
+				</tr>
+			);
+        } else {
+        	return (
+				<tr>
+					<th scope="row">2</th>
+			        <td>Anirudh</td>
+	   		        <td>$200</td>
+			        <td>20/06/2019</td>
+				</tr>
+			);
+        }*/
+
+        return this.state.tableValues.map((item, index) => {
+	        //const {name, cost, date } = item //destructuring
+	        return (
+	            <tr>
+					<th scope="row">2</th>
+			        <td>{item.Name}</td>
+	   		        <td>{item.Cost}</td>
+			        <td>{item.Date}</td>
+				</tr>
+	        )
+	    })
+		/**/
 	}
 
 	render() {
@@ -104,14 +163,14 @@ class ProfilePage extends React.Component {
 		      <div className="row">
 		      	<div className="col-sm-6">
 		      		<div className="list-group monthly">
-					  <button id="0" onClick={this.handleClick} className="list-group-item">Food</button>
-					  <button id="1" onClick={this.handleClick} className="list-group-item">Groceries</button>
-					  <button id="2" onClick={this.handleClick} className="list-group-item">Rent</button>
-					  <button id="3" onClick={this.handleClick} className="list-group-item">Household</button>
-					  <button id="4" onClick={this.handleClick} className="list-group-item">Electronics</button>
-					  <button id="5" onClick={this.handleClick} className="list-group-item">Travel/Commute</button>
-					  <button id="6" onClick={this.handleClick} className="list-group-item">Stationery</button>
-					  <button id="7" onClick={this.handleClick} className="list-group-item">Miscellaneous</button>
+					  <button id="10" onClick={this.handleClick} className="list-group-item active">Food</button>
+					  <button id="11" onClick={this.handleClick} className="list-group-item">Groceries</button>
+					  <button id="12" onClick={this.handleClick} className="list-group-item">Rent</button>
+					  <button id="13" onClick={this.handleClick} className="list-group-item">Household</button>
+					  <button id="14" onClick={this.handleClick} className="list-group-item">Electronics</button>
+					  <button id="15" onClick={this.handleClick} className="list-group-item">Travel/Commute</button>
+					  <button id="16" onClick={this.handleClick} className="list-group-item">Stationery</button>
+					  <button id="17" onClick={this.handleClick} className="list-group-item">Miscellaneous</button>
 					</div>
 		      	</div>
 		      	<div className="row col-sm-6">
@@ -155,8 +214,8 @@ class ProfilePage extends React.Component {
 				      <th scope="col">Date</th>
 				    </tr>
 				  </thead>
-				  <tbody>
-				    {this.rendertable()}
+				  <tbody id="table-content">
+				    {this.rendertable(undefined)}
 				  </tbody>
 				</table>
 			  </div>
