@@ -66,7 +66,7 @@
 }
 
 .form-control {
-  border: 1px solid black;
+  border: 1.5px solid black;
 }
 
 .list-group.monthly {
@@ -85,7 +85,15 @@
 .container.category-view {
   overflow: scroll !important;
   max-height: 300px;
-  margin-top: 30px; 
+  margin-top: 80px; 
+}
+
+.list-group.monthly {
+  border: 0px solid black;
+}
+
+.list-group-item {
+  border: 1px solid black;
 }
 
 #signupform {
@@ -109,12 +117,17 @@ input {
   margin-top: 40px;
 }
 
+#submitButton {
+  background-color: #343a40;
+  color: #ffffff;
+}
+
 .right {
   float:right;
 }
 
 .list-group-item.active {
-  background-color: #444444
+  background-color: #343a40
 }
 
 button:focus {
@@ -142,7 +155,7 @@ button:focus {
 }
 
 .jumbotron.text-center.profile-page.table-dark {
-  background-color: #444444;
+  background-color: #343a40;
   color: white;
   font-size: 10px;
 }

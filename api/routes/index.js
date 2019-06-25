@@ -9,16 +9,65 @@ router.get('/', function(req, res, next) {
   res.send('ok');
 });
 
-router.get('/profile', function(req,res,next) {
-	console.log('hello')
-	res.send('food is amazing');
-});
-
 //    POST REQUESTS    //
 
 router.post('/', function(req, res, next) {
   //res.render('index', { title: 'Express' });
   res.send('ok');
+});
+
+
+//    CHECKING FOR EXISTING PROFILE   //
+router.get('/profile', function(req, res, next) {
+
+	var con = mysql.createConnection({
+	  host: "localhost",
+	  user: "root",
+	  password: "ravi",
+	  database: "ExpenseTracker"
+	});
+
+	con.connect();
+
+	let email = req.query["email"];
+	let password = req.query["hashed_password"];
+
+	console.log(email);
+
+	let found = false;
+	let wrong_password = false;
+
+	console.log('getting right profile');
+	let profile = {};
+
+	con.query("SELECT Email, Password, Name FROM Profiles", function (err, result, fields) {
+			if (err) throw err;
+			let i = 0;
+			for (i = 0; i < result.length; i++) {
+				if (result[i]["Email"].toLowerCase() == email.toLowerCase()) {
+					profile = result[i];
+				}
+			}
+
+			let obj = {
+				val: ''
+			}
+
+			if (!profile["Email"]) {
+				//console.log('oops');
+				obj.val = 'missing';
+			} else if (profile["Password"] != password) {
+				obj.val = 'wrongpass';
+			} else {
+				obj.val = profile["Name"];
+				console.log(obj.val);
+			}
+
+			res.send(obj);
+
+		});
+
+	con.end();
 });
 
 
@@ -40,8 +89,11 @@ router.post('/profile', function(req,res,next) {
 	let date = req.body["addDate"]
 	let cost = req.body["addCost"]
 	let type = req.body["addType"]
+	let username = req.body["addUserName"];
+	console.log(username + ' is username');
+	console.log(name + ' is name');
 
-	con.query("INSERT INTO Expenses (UserName, Name, Date, Type, Cost) VALUES ('" + 1 + "', '"+ name + "', '" + date + "', '" + type + "', '" + cost + "')", function (err, result, fields) {
+	con.query("INSERT INTO Expenses (UserName, Name, Date, Type, Cost) VALUES ('" + username + "', '"+ name + "', '" + date + "', '" + type + "', '" + cost + "')", function (err, result, fields) {
 			if (err) throw err;
 	    	res.send(result);	
 		});
@@ -113,7 +165,9 @@ router.get('/expenses', function(req, res, next) {
 	let name = req.query["name"];
 	let type = req.query["type"];
 
-	con.query("SELECT Name, Date, Cost FROM Expenses WHERE Name = '" + name + "' AND Type = '" + type + "'", function (err, result, fields) {
+	console.log(name + ' ' + type);
+
+	con.query("SELECT Name, Date, Cost FROM Expenses WHERE Username = '" + name + "' AND Type = '" + type + "'", function (err, result, fields) {
 			if (err) throw err;
 	    	res.send(result);	
 		});

@@ -2,6 +2,7 @@ import React from 'react';
 import '../App.css';
 import { Link } from 'react-router-dom';
 import { validateAll } from 'indicative';
+import {pbkdf2Sync} from 'crypto';
 
 class MainPage extends React.Component {
   
@@ -15,9 +16,45 @@ class MainPage extends React.Component {
     }
   }
 
-  handleClick() {
+  sendData(sendName) {
+    let path = '/profile';
+      let state = {
+          name: sendName
+      }
+
+      this.props.history.push(path, state);
+  }
+
+  getName() {
+
+    let salt = '';
+    let hash = pbkdf2Sync(this.state.password, salt, 1000, 64, `sha512`).toString(`hex`);
+
+    let sendEmail = this.state.email;
+
+    alert(sendEmail + ' ' + hash);
+    fetch("http://localhost:9000/profile?email=" + sendEmail + "&hashed_password=" + hash)
+        .then(res => res.json())
+        .then((data) => {
+          if (data.val != 'missing' && data.val != 'wrongpass') {
+            console.log('appropriate profile found. redirecting you to profile page');
+            this.sendData(data.val);
+          }
+        })
+        .catch(() => {
+          console.log();
+        });
+      
+  }
+
+  handleClick(e) {
     //alert("signed in!");
-    alert(this.state.email + ' ' + this.state.password);
+
+    let path = '/profile';
+    let state = {
+      email: this.state.email,
+      password: this.state.password
+    }
 
     const rules = {
       email: 'required|email',
@@ -28,7 +65,11 @@ class MainPage extends React.Component {
 
     validateAll(data, rules)
       .then(() => {
-        console.log('validated');
+        console.log('Email and password validation complete. Checking for appropriate profile');
+
+        this.getName();
+        //this.props.history.push(path, state);
+        //alert(this.state.email + ' ' + this.state.password);
       })
       .catch((errors) => {
         console.log(errors);
@@ -41,6 +82,8 @@ class MainPage extends React.Component {
           alert('Password should not be more than 30 characters long');
         }
       })
+
+      e.preventDefault();
   }
 
   handleChange(e) {
@@ -50,7 +93,7 @@ class MainPage extends React.Component {
   }
 
   handleSubmit() {
-
+    //e.preventDefault();
   }
 
   render() {
@@ -64,11 +107,11 @@ class MainPage extends React.Component {
           <div className="col-sm-4 ani">
             <form>
               <div className="form-group text-left">
-                <label for="email"><h4>Email address:</h4></label>
+                <label><h4>Email address:</h4></label>
                 <input type="email" onChange = {this.handleChange} className="form-control" id="email" placeholder="xyz@gmail.com"/>
               </div>
               <div className="form-group text-left">
-                <label for="pwd"><h4>Password:</h4></label>
+                <label><h4>Password:</h4></label>
                 <input type="password" onChange = {this.handleChange} className="form-control" id="password" placeholder="*******"/>
               </div>
               <button id="submitButton" type="submit" onClick={this.handleClick} className="btn btn-success">Sign in</button>

@@ -12,19 +12,20 @@ class ProfilePage extends React.Component {
 		this.handleClick = this.handleClick.bind(this)
 		this.state = {
 			addName: '',
+			addUserName: '',
 			addDate: '',
 			addCost: 0.0,
 			addType: '',
 			tableValues: [{
 				Name: '',
-				Cost: 0.0,
+				Cost: '',
 				Date: ''
 			}]
 		}
 	}
 
 	addExpense(name, date, type, cost) {
-		this.setState({addName: name, addType: type, addCost: cost, addDate: date}, () => {
+		this.setState({addName: name, addType: type, addCost: cost, addDate: date, addUserName: this.props.location.state.name}, () => {
 			alert('hello');
 			fetch('http://localhost:9000/profile', {
 			    method: 'POST',
@@ -69,7 +70,7 @@ class ProfilePage extends React.Component {
 		let activeId = e.target.id;
 		//document.getElementById(activeId).className = "list-group-item active";
 		e.target.className = "list-group-item active";
-		for (let i = 10; i < 18; i++) {
+		for (let i = 0; i < 8; i++) {
 			if (i != activeId) {
 				document.getElementById(i).className = "list-group-item";
 			}
@@ -77,7 +78,7 @@ class ProfilePage extends React.Component {
 
 		let type = e.target.innerHTML;
 
-		fetch("http://localhost:9000/expenses?name=ani&type=" + type)
+		fetch("http://localhost:9000/expenses?name=" + this.props.location.state.name + "&type=" + type)
         .then(res => res.json())
         .then((data) => {
           //this.setState({ name: data });
@@ -101,55 +102,39 @@ class ProfilePage extends React.Component {
 
 	rendertable(values) {
 
-		/*fetch("http://localhost:9000/" + type)
-        .then(res => res.json())
-        .then((data) => {
-          this.setState({ name: data });
-          console.log(this.state.name);
-        })
-        .catch(() => {
-          console.log();
-        });*/
+        if (this.state.tableValues.length == 0 || this.state.tableValues[0].Name == '') {
+        	return (
+        		<tr>
+			        <td>N/A</td>
+	   		        <td>N/A</td>
+			        <td>N/A</td>
+			        <td>N/A</td>
+				</tr>
+        	);
+        }
 
-        /*if (values == undefined) {
-        	return (
-				<tr>
-					<th scope="row">2</th>
-			        <td>Starbucks</td>
-	   		        <td>$200</td>
-			        <td>20/06/2019</td>
-				</tr>
-			);
-        } else {
-        	return (
-				<tr>
-					<th scope="row">2</th>
-			        <td>Anirudh</td>
-	   		        <td>$200</td>
-			        <td>20/06/2019</td>
-				</tr>
-			);
-        }*/
+        let len = this.state.tableValues.length;
+        let index = 0;
 
         return this.state.tableValues.map((item, index) => {
-	        //const {name, cost, date } = item //destructuring
+	        index++;
 	        return (
 	            <tr>
-					<th scope="row">2</th>
+	            	<th scope="row">{index}</th>
 			        <td>{item.Name}</td>
 	   		        <td>{item.Cost}</td>
 			        <td>{item.Date}</td>
 				</tr>
-	        )
+	        );
 	    })
-		/**/
+
 	}
 
 	render() {
 		return (
 		    <div className="App">
 		      <div className="jumbotron text-center profile-page table-dark">
-		        <h1>Anirudh Karanam</h1>
+		        <h1>{this.props.location.state.name}</h1>
 		      </div>
 		      <div className="row">
 		      	<div className="col-sm-6">
@@ -163,14 +148,14 @@ class ProfilePage extends React.Component {
 		      <div className="row">
 		      	<div className="col-sm-6">
 		      		<div className="list-group monthly">
-					  <button id="10" onClick={this.handleClick} className="list-group-item active">Food</button>
-					  <button id="11" onClick={this.handleClick} className="list-group-item">Groceries</button>
-					  <button id="12" onClick={this.handleClick} className="list-group-item">Rent</button>
-					  <button id="13" onClick={this.handleClick} className="list-group-item">Household</button>
-					  <button id="14" onClick={this.handleClick} className="list-group-item">Electronics</button>
-					  <button id="15" onClick={this.handleClick} className="list-group-item">Travel/Commute</button>
-					  <button id="16" onClick={this.handleClick} className="list-group-item">Stationery</button>
-					  <button id="17" onClick={this.handleClick} className="list-group-item">Miscellaneous</button>
+					  <button id="0" onClick={this.handleClick} className="list-group-item">Food</button>
+					  <button id="1" onClick={this.handleClick} className="list-group-item">Groceries</button>
+					  <button id="2" onClick={this.handleClick} className="list-group-item">Rent</button>
+					  <button id="3" onClick={this.handleClick} className="list-group-item">Household</button>
+					  <button id="4" onClick={this.handleClick} className="list-group-item">Electronics</button>
+					  <button id="5" onClick={this.handleClick} className="list-group-item">Travel/Commute</button>
+					  <button id="6" onClick={this.handleClick} className="list-group-item">Stationery</button>
+					  <button id="7" onClick={this.handleClick} className="list-group-item">Miscellaneous</button>
 					</div>
 		      	</div>
 		      	<div className="row col-sm-6">
@@ -188,7 +173,7 @@ class ProfilePage extends React.Component {
 		      			</div>
 		      		</div>
 		      		<div className="typeselect ani">
-						<select className="form-control" onChange={this.handleChange} id="typeSelector">
+						<select className="form-control selector" onChange={this.handleChange} id="typeSelector">
 						  <option value="Food">Food</option>
 						  <option value="Groceries">Groceries</option>
 						  <option value="Rent">Rent</option>
@@ -215,7 +200,7 @@ class ProfilePage extends React.Component {
 				    </tr>
 				  </thead>
 				  <tbody id="table-content">
-				    {this.rendertable(undefined)}
+				    {this.rendertable()}
 				  </tbody>
 				</table>
 			  </div>
