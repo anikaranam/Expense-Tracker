@@ -23,8 +23,8 @@ router.get('/profile', function(req, res, next) {
 	var con = mysql.createConnection({
 	  host: "localhost",
 	  user: "root",
-	  password: "ravi",
-	  database: "ExpenseTracker"
+	  password: "anrMar#18",
+	  database: "Hello"
 	});
 
 	con.connect();
@@ -77,8 +77,8 @@ router.post('/profile', function(req,res,next) {
 	var con = mysql.createConnection({
 	  host: "localhost",
 	  user: "root",
-	  password: "ravi",
-	  database: "ExpenseTracker"
+	  password: "anrMar#18",
+	  database: "Hello"
 	});
 
 	con.connect();
@@ -115,8 +115,8 @@ router.get('/signup', function(req, res, next) {
 	var con = mysql.createConnection({
 	  host: "localhost",
 	  user: "root",
-	  password: "ravi",
-	  database: "ExpenseTracker"
+	  password: "anrMar#18",
+	  database: "Hello"
 	});
 
 	con.connect();
@@ -156,8 +156,8 @@ router.get('/expenses', function(req, res, next) {
 	var con = mysql.createConnection({
 	  host: "localhost",
 	  user: "root",
-	  password: "ravi",
-	  database: "ExpenseTracker"
+	  password: "anrMar#18",
+	  database: "Hello"
 	});
 
 	con.connect();
@@ -183,10 +183,10 @@ router.post('/signup', function(req,res,next) {
 	var con = mysql.createConnection({
 	  host: "localhost",
 	  user: "root",
-	  password: "ravi",
-	  database: "ExpenseTracker"
+	  password: "anrMar#18",
+	  database: "Hello"
 	});
-
+	
 	con.connect();
 
 	console.log(req.body["addName"])

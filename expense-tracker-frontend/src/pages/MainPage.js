@@ -21,7 +21,7 @@ class MainPage extends React.Component {
       let state = {
           name: sendName
       }
-
+      console.log('sending');
       this.props.history.push(path, state);
   }
 
@@ -32,17 +32,22 @@ class MainPage extends React.Component {
 
     let sendEmail = this.state.email;
 
+    console.log('getting name');
+
     alert(sendEmail + ' ' + hash);
     fetch("http://localhost:9000/profile?email=" + sendEmail + "&hashed_password=" + hash)
         .then(res => res.json())
         .then((data) => {
+          console.log('received data');
           if (data.val != 'missing' && data.val != 'wrongpass') {
             console.log('appropriate profile found. redirecting you to profile page');
             this.sendData(data.val);
+          } else {
+            alert('User with the above credentials does not exist');
           }
         })
         .catch(() => {
-          console.log();
+          console.log('error');
         });
       
   }
