@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var mysql = require('mysql');
 var crypto = require('crypto');
+require('dotenv').config();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -20,10 +21,12 @@ router.post('/', function(req, res, next) {
 //    CHECKING FOR EXISTING PROFILE   //
 router.get('/profile', function(req, res, next) {
 
+	console.log(process.env.REACT_APP_MYSQL_PASSWORD + ' is password');
+
 	var con = mysql.createConnection({
 	  host: "localhost",
 	  user: "root",
-	  password: "anrMar#18",
+	  password: process.env.REACT_APP_MYSQL_PASSWORD,
 	  database: "Hello"
 	});
 
@@ -77,7 +80,7 @@ router.post('/profile', function(req,res,next) {
 	var con = mysql.createConnection({
 	  host: "localhost",
 	  user: "root",
-	  password: "anrMar#18",
+	  password: process.env.REACT_APP_MYSQL_PASSWORD,
 	  database: "Hello"
 	});
 
@@ -115,7 +118,7 @@ router.get('/signup', function(req, res, next) {
 	var con = mysql.createConnection({
 	  host: "localhost",
 	  user: "root",
-	  password: "anrMar#18",
+	  password: process.env.REACT_APP_MYSQL_PASSWORD,
 	  database: "Hello"
 	});
 
@@ -156,7 +159,7 @@ router.get('/expenses', function(req, res, next) {
 	var con = mysql.createConnection({
 	  host: "localhost",
 	  user: "root",
-	  password: "anrMar#18",
+	  password: process.env.REACT_APP_MYSQL_PASSWORD,
 	  database: "Hello"
 	});
 
@@ -183,7 +186,7 @@ router.post('/signup', function(req,res,next) {
 	var con = mysql.createConnection({
 	  host: "localhost",
 	  user: "root",
-	  password: "anrMar#18",
+	  password: process.env.REACT_APP_MYSQL_PASSWORD,
 	  database: "Hello"
 	});
 	
