@@ -1,6 +1,6 @@
 .App {
   text-align: center;
-  font-family: "Helvetica"
+  font-family: "Georgia"
 }
 
 .App-logo {
@@ -33,8 +33,197 @@
   }
 }
 
-
 /*  Main Page Stylings  */
+
+.jumbotron.text-center {
+  font-size: 10px;
+  max-height: 100px;
+}
+
+#logoImage {
+  min-height: 60px;
+  max-width: 90px;
+  float: left;
+}
+
+
+.page-header {
+  background-color: #099543;
+  margin-top: 0px;
+  color: white;
+  font-family: "Georgia";
+}
+
+form {
+  font-family: "Georgia";
+}
+
+input {
+  font-family: "Georgia";
+}
+
+h1 {
+  font-size: 40px;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+}
+
+img {
+  max-height: 400px;
+  max-width: 400px;
+  margin-left: 40px;
+  margin-top: 30px;
+}
+
+.row {
+  font-family: "Georgia";
+}
+
+.container.signup {
+  margin-top: 10px;
+}
+
+.row.logo {
+  margin-top: 40px;
+  margin-bottom: 80px;
+}
+
+#loginHeader {
+  vertical-align: text-top;
+  color: white;
+}
+
+form {
+  background-color: #095B95;
+  max-width: 50px;
+}
+
+#formlogin {
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  border: 1px solid black;
+}
+
+.logindetails {
+  font-size: 25px;
+  font-family: "Georgia";
+  border-radius: 20px;
+  color: black;
+}
+
+#expenseName {
+  max-width: 20px;
+  float: left;
+  min-width: 20px;
+  max-width: 180px; 
+  text-align: left;
+  border: 1px solid black;
+  min-height: 40px;
+  max-height: 50px;
+}
+
+
+#cost {
+  max-width: 20px;
+  float: left;
+  min-width: 20px;
+  max-width: 180px; 
+  text-align: left;
+  border: 1px solid black;
+  min-height: 40px;
+  max-height: 50px;
+}
+
+#date {
+  max-width: 20px;
+  float: left;
+  min-width: 20px;
+  max-width: 180px; 
+  text-align: left; 
+  border: 1px solid black;
+  min-height: 40px;
+  max-height: 50px;
+}
+
+select {
+  min-width: 20px;
+  max-width: 180px;
+  min-height: 40px;
+  max-height: 50px;
+}
+
+input {
+  border-radius: 0px;
+  padding-left: 20px; 
+  border: none;
+  min-width: 300px;
+  font-size: 20px;
+  font-family: "Georgia"
+}
+
+
+
+/*   Profile Page stylings   */
+
+thead {
+  background-color: #095B95;
+  color: white;
+}
+
+#submitnewexpense {
+  background-color: #099543;
+  color: white;
+  margin-top: 1px;
+  width: 100px;
+  border-radius: 15px;
+}
+
+
+
+/*
+button {
+  margin-bottom: 40px;
+  margin-top: 40px;
+  border-radius: 20px;
+  min-width: 200px;
+  font-size: 25px;
+}*/
+
+#Name {
+  margin-top: 40px;
+}
+
+#submitting {
+  margin-bottom: 40px;
+  background-color: #099543;
+  border: none;
+  color: #ffffff;
+  font-family: "Georgia"
+}
+
+#pass2 {
+  margin-bottom: 40px;
+}
+
+.container.hello {
+  margin-top: 40px;
+}
+
+.list-group-item.active {
+  background-color: #095B95;
+}
+
+.list-group.monthly {
+  margin-left: 100px;
+}
+
+select {
+  border: 1px solid black;
+  margin-top: 20px;
+  margin-bottom: 15px;
+}
 
 .jumbotron {
   width: 100%;
@@ -50,7 +239,7 @@
 }
 
 #submitButton {
-  margin-top: 20px;
+  margin-top: 0px;
 }
 
 
@@ -108,17 +297,13 @@
 
 
 input {
-  height: 40px;
+  min-height: 40px;
   margin-top: 15px;
 }
 
-#submitting {
-  margin-left: 80px;
-  margin-top: 40px;
-}
-
 #submitButton {
-  background-color: #343a40;
+  background-color: #099543;
+  border: none;
   color: #ffffff;
 }
 
@@ -126,9 +311,10 @@ input {
   float:right;
 }
 
+/*
 .list-group-item.active {
   background-color: #343a40
-}
+}*/
 
 button:focus {
   outline: none;
@@ -136,6 +322,20 @@ button:focus {
 
 #Month {
   font-size: 25px;
+  font-weight: bold;
+}
+
+#left {
+  border-radius: 10px;
+  padding-left: 10px;
+  padding-right: 12px; 
+}
+
+
+#right {
+  border-radius: 10px;
+  padding-left: 10px;
+  padding-right: 10px; 
 }
 
 #date {
@@ -154,19 +354,9 @@ button:focus {
   text-align: center;
 }
 
-.jumbotron.text-center.profile-page.table-dark {
-  background-color: #343a40;
-  color: white;
-  font-size: 10px;
-}
-
 div {
   overflow-x: hidden;
   font-size: 20px;
-}
-
-input {
-  font-size: 15px;
 }
 
 ::-webkit-scrollbar {

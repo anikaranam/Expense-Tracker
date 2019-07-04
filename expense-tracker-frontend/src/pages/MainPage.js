@@ -3,6 +3,7 @@ import '../App.css';
 import { Link } from 'react-router-dom';
 import { validateAll } from 'indicative';
 import {pbkdf2Sync} from 'crypto';
+import wallet from '../Wallet.png';
 
 class MainPage extends React.Component {
   
@@ -103,29 +104,32 @@ class MainPage extends React.Component {
 
   render() {
     return (
-      <div className="App">
-        <div className="jumbotron text-center">
+      <div>
+        <div className="page-header text-center">
           <h1>Expense Tracker</h1>
         </div>
-        <div className="row">
-          <div className="col-sm-4"></div>
-          <div className="col-sm-4 ani">
-            <form>
-              <div className="form-group text-left">
-                <label><h4>Email address:</h4></label>
-                <input type="email" onChange = {this.handleChange} className="form-control" id="email" placeholder="xyz@gmail.com"/>
-              </div>
-              <div className="form-group text-left">
-                <label><h4>Password:</h4></label>
-                <input type="password" onChange = {this.handleChange} className="form-control" id="password" placeholder="*******"/>
-              </div>
-              <button id="submitButton" type="submit" onClick={this.handleClick} className="btn btn-success">Sign in</button>
-            </form>
+        
+        <div className="row logo">
+          <div className="col-sm-6">
+            <img src={wallet} />
           </div>
+          <div className="col-sm-1">
+          </div>
+          <form className="col-sm-4 text-center" id="formlogin">
+            <h1 id="loginHeader">Login</h1>
+            <div className="container">
+              <input id="email" onChange={this.handleChange} classname="logindetails" placeholder="Email" />
+            </div>
+            <div className="container">
+              <input id="password" onChange={this.handleChange} classname="logindetails" placeholder="Password" type="password"/>
+            </div>
+            <div className="container hello">
+              <button id="submitButton" type="submit" onClick={this.handleClick}>Submit</button>
+            </div>
+          </form>
         </div>
-        <hr />
         <div className="row">
-          <Link to='/signup' className="col-sm-12"><h4>If you don't have an account yet, click here to sign up</h4></Link>
+          <Link to='/signup' className="col-sm-12"><h2>If you don't have an account yet, click here to sign up</h2></Link>
         </div>
       </div>
     );

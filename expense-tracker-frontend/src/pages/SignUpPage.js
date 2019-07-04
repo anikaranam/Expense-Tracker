@@ -1,6 +1,7 @@
 import React from 'react';
 import '../App.css';
 import { Link } from 'react-router-dom';
+import wallet from '../Wallet.png'
 
 class SignUpPage extends React.Component {
 	constructor(props) {
@@ -73,26 +74,31 @@ class SignUpPage extends React.Component {
 	render() {
 		return (
 			<div>
-				<div className="jumbotron text-center"><h1>Expense Tracker</h1></div>
-				<div className="container form">
-					<form id="signupform">
-						<div>
-							<input type="text" id="Name" className="form-control-lg col-sm-4" placeholder="Full name" />
+				<div className="page-header text-center">
+		         	<h1>Expense Tracker</h1>
+		        </div>
+				<div className="row logo">
+					<div className="col-sm-4">
+	          		</div>
+					<form className="col-sm-4 text-center" id="formlogin">
+						<div className="container">
+							<input type="text" id="Name" className="logindetails" placeholder="Full name" />
 						</div>
-						<div>
-					    	<input type="email" id="Email" className="form-control-lg col-sm-4" placeholder="Email" />
+						<div className="container signup">
+					    	<input type="email" id="Email" className="logindetails" placeholder="Email" />
 					    </div>
-					    <div>
-					    	<input type="password" id="pass1" className="form-control-lg col-sm-4" placeholder="Password" />
+					    <div className="container signup">
+					    	<input type="password" id="pass1" className="logindetails" placeholder="Password" />
 					    </div>
-					    <div>
-					    	<input type="password" id="pass2" className="form-control-lg col-sm-4" placeholder="Confirm Password" />
+					    <div className="container signup">
+					    	<input type="password" id="pass2" className="logindetails" placeholder="Confirm Password" />
 					    </div>
 					</form>
+					<div className="container">
+							<button id="submitting" onClick={this.handleClick}>Add Account</button>
+						</div>	
 				</div>
-				<div className="container form">
-				<button id="submitting" onClick={this.handleClick} className="btn btn-primary col-sm-1">Submit</button>
-				</div>
+				
 			</div>
 		)
 	}

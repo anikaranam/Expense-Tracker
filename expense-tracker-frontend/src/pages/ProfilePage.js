@@ -10,6 +10,7 @@ class ProfilePage extends React.Component {
 		this.handleNewExpense = this.handleNewExpense.bind(this)
 		this.handleChange = this.handleChange.bind(this)
 		this.handleClick = this.handleClick.bind(this)
+		this.changeMonth = this.changeMonth.bind(this)
 		this.state = {
 			addName: '',
 			addUserName: '',
@@ -40,14 +41,73 @@ class ProfilePage extends React.Component {
 		});
 	}
 
+	changeMonth(event) {
+
+		let months = ["January","February","March",
+                 "April","May","June","July","August",
+                 "September","October","November","December"];
+		let val = document.getElementById('Month').innerHTML;
+		let current_month = val.split(" ")[0];
+		let current_year = val.split(" ")[1];
+		//alert(current_month);
+
+		if (event.target.id == 'left') {
+			let currentIndex = months.indexOf(current_month);
+			let newIndex = 0;
+			let newYear = 0;
+			if (currentIndex == 0) {
+				newIndex = 11;
+				newYear = parseInt(current_year) - 1;
+				document.getElementById('Month').innerHTML = months[newIndex] + " " + newYear;
+			} else {
+				newIndex = currentIndex - 1;
+				document.getElementById('Month').innerHTML = months[newIndex] + " " + current_year;
+			}
+		}
+
+		if (event.target.id == 'right') {
+			let currentIndex = months.indexOf(current_month);
+			let newIndex = 0;
+			let newYear = 0;
+			if (currentIndex == 11) {
+				newIndex = 0;
+				newYear = parseInt(current_year) + 1;
+				document.getElementById('Month').innerHTML = months[newIndex] + " " + newYear;
+			} else {
+				newIndex = currentIndex + 1;
+				document.getElementById('Month').innerHTML = months[newIndex] + " " + current_year;
+			}	
+		}
+	}
+
 	handleNewExpense() {
 		let name = document.getElementById('expenseName').value;
 		let date = document.getElementById('date').value;
 		let type = document.getElementById('typeSelector').value;
 		let cost = document.getElementById('cost').value;
 		alert(name + ' ' + date + ' ' + type + ' ' + cost);
-		this.addExpense(name, date, type, cost);
+		if (name == '') {
+			alert('Please enter Expense name');
+		} else if (type == '') {
+			alert('Please enter Expense type');
+		} else if (date == '') {
+			alert('Please enter Expense date');
+		} else if (cost == '') {
+			alert('Please enter Expense cost');
+		} else {
+			this.addExpense(name, date, type, cost);
+		}
+		
 	}
+
+	findMonth() {
+		let months = ["January","February","March",
+                 "April","May","June","July","August",
+                 "September","October","November","December"];
+		var d = new Date();
+		return (months[d.getMonth()] + " " + d.getFullYear());
+	}
+
 
 	handleChange(e) {
 		console.log(e.target.value);
@@ -133,18 +193,23 @@ class ProfilePage extends React.Component {
 	render() {
 		return (
 		    <div className="App">
-		      <div className="jumbotron text-center profile-page table-dark">
-		        <h1>{this.props.location.state.name}</h1>
-		      </div>
+		    	<div className="page-header text-center">
+		          <h1>{this.props.location.state.name}</h1>
+		        </div>
+
+
 		      <div className="row">
 		      	<div className="col-sm-6">
-			      	<button className="left" id="left"><span className="glyphicon glyphicon-triangle-left"></span></button>
-			      	<label id="Month">June 2019</label>
-			      	<button className="right" id="right"><span className="glyphicon glyphicon-triangle-right"></span></button>
+			      	<button className="left" onClick={this.changeMonth} id="left"><span className="glyphicon glyphicon-triangle-left"></span></button>
+			      	<label id="Month">{this.findMonth()}</label>
+			      	<button className="right" onClick={this.changeMonth} id="right"><span className="glyphicon glyphicon-triangle-right"></span></button>
 		      	</div>
-		      	<div className="col-sm-6 add-new">
+		      	<div className="col-sm-6 add-new" id="Month">
 		      	Add a new expense</div>
 		      </div>
+
+
+
 		      <div className="row">
 		      	<div className="col-sm-6">
 		      		<div className="list-group monthly">
@@ -159,21 +224,18 @@ class ProfilePage extends React.Component {
 					</div>
 		      	</div>
 		      	<div className="row col-sm-6">
-		      		<div className="typeselect">
-		      			<input type="text" id="expenseName" className="form-control" placeholder="Expense name" />
+		      		<div className="col">
+		      			<input type="text" id="expenseName" placeholder="Expense name" />
 		      		</div>
-		      		<div className="typeselect">
-			      		<div className="container">
-			      			<input className="form-control" id="cost" type="number" placeholder="Cost" />
-			      		</div>
+			      	<div className="col">
+			      		<input id="cost" type="number" placeholder="Cost" />
+			  		</div>
+		      		<div className="col">
+		      			<input id="date" type="date" placeholder="Date" />
 		      		</div>
-		      		<div className="typeselect">
-		      			<div className="container">
-		      				<input className="form-control" id="date" type="date" placeholder="Date" />
-		      			</div>
-		      		</div>
-		      		<div className="typeselect ani">
-						<select className="form-control selector" onChange={this.handleChange} id="typeSelector">
+
+		      		<div className="container">
+						<select className="selector" onChange={this.handleChange} id="typeSelector">
 						  <option value="Food">Food</option>
 						  <option value="Groceries">Groceries</option>
 						  <option value="Rent">Rent</option>
@@ -184,14 +246,17 @@ class ProfilePage extends React.Component {
 						  <option value="Miscellaneous">Miscellaneous</option>
 						</select>
 					</div>
+		      		
 					<div className="container">
-		      			<button type="submit" className="btn btn-dark" onClick={this.handleNewExpense}>Submit</button>
+		      			<button type="submit" id="submitnewexpense" onClick={this.handleNewExpense}>Submit</button>
 		      		</div>
+
 		      	</div>
+
 		      </div>
 		      <div className="container category-view">
 		      <table className="table">
-				  <thead className="table-dark">
+				  <thead>
 				    <tr>
 				      <th scope="col">No.</th>
 				      <th scope="col">Name</th>
