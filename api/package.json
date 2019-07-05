@@ -8,12 +8,16 @@
   "dependencies": {
     "cookie-parse": "^0.4.0",
     "cookie-parser": "^1.4.4",
+    "csv-writer": "^1.4.0",
     "debug": "^2.6.9",
     "dotenv": "^8.0.0",
     "express": "^4.16.4",
     "http-errors": "^1.6.3",
     "jade": "^1.11.0",
+    "json2csv": "^4.5.2",
+    "jsonexport": "^2.4.1",
     "morgan": "^1.9.1",
+    "nodemailer": "^6.2.1",
     "react": "^15.3.1"
   }
 }

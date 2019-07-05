@@ -11,6 +11,7 @@ class ProfilePage extends React.Component {
 		this.handleChange = this.handleChange.bind(this)
 		this.handleClick = this.handleClick.bind(this)
 		this.changeMonth = this.changeMonth.bind(this)
+		this.downloadCSV = this.downloadCSV.bind(this)
 		this.state = {
 			addName: '',
 			addUserName: '',
@@ -25,9 +26,25 @@ class ProfilePage extends React.Component {
 		}
 	}
 
+	/** 	click handler for download button 	**/
+	downloadCSV() {
+		//alert(document.getElementById('headertitle').innerHTML);
+		fetch('http://localhost:9000/list?name=' + document.getElementById('headertitle').innerHTML, {
+			    method: 'POST',
+			    body: JSON.stringify(this.state),
+			    headers: {
+	    			'Content-Type': 'application/json',
+	    			'accept':'application/json'
+	  			}
+		  	}).then(function(response) {
+		    	console.log("Successful");
+		    	alert('File download successful');
+		  	}).catch(console.log("error"));
+	}
+
 	addExpense(name, date, type, cost) {
 		this.setState({addName: name, addType: type, addCost: cost, addDate: date, addUserName: this.props.location.state.name}, () => {
-			alert('hello');
+			//alert('hello');
 			fetch('http://localhost:9000/profile', {
 			    method: 'POST',
 			    body: JSON.stringify(this.state),
@@ -137,8 +154,13 @@ class ProfilePage extends React.Component {
 		}
 
 		let type = e.target.innerHTML;
+		let date = document.getElementById('Month').innerHTML;
+		let current_month = date.split(" ")[0];
+		let current_year = date.split(" ")[1];
 
-		fetch("http://localhost:9000/expenses?name=" + this.props.location.state.name + "&type=" + type)
+		//alert(current_month + " " + current_year);
+
+		fetch("http://localhost:9000/expenses?name=" + this.props.location.state.name + "&type=" + type + "&month=" + current_month + "&year=" + current_year)
         .then(res => res.json())
         .then((data) => {
           //this.setState({ name: data });
@@ -194,7 +216,9 @@ class ProfilePage extends React.Component {
 		return (
 		    <div className="App">
 		    	<div className="page-header text-center">
-		          <h1>{this.props.location.state.name}</h1>
+		          <h1 id="headertitle">{this.props.location.state.name}</h1>
+		          <button id="getSummary" onClick={this.downloadCSV} data-toggle="tooltip" data-placement="top" title="Download Expense file as CSV" className="sub ui-btn-inline"><span className="glyphicon glyphicon-download-alt"></span></button>
+		          <button id="sendFile" onClick={this.sendEmail} data-toggle="tooltip" data-placement="top" title="Share via Email" className="send ui-btn-inline"><span className="glyphicon glyphicon-envelope"></span></button>
 		        </div>
 
 
@@ -213,14 +237,14 @@ class ProfilePage extends React.Component {
 		      <div className="row">
 		      	<div className="col-sm-6">
 		      		<div className="list-group monthly">
-					  <button id="0" onClick={this.handleClick} className="list-group-item">Food</button>
-					  <button id="1" onClick={this.handleClick} className="list-group-item">Groceries</button>
-					  <button id="2" onClick={this.handleClick} className="list-group-item">Rent</button>
-					  <button id="3" onClick={this.handleClick} className="list-group-item">Household</button>
-					  <button id="4" onClick={this.handleClick} className="list-group-item">Electronics</button>
-					  <button id="5" onClick={this.handleClick} className="list-group-item">Travel/Commute</button>
-					  <button id="6" onClick={this.handleClick} className="list-group-item">Stationery</button>
-					  <button id="7" onClick={this.handleClick} className="list-group-item">Miscellaneous</button>
+					  <button id="0" onClick={this.handleClick} data-toggle="tooltip" data-placement="top" title="View all Food Expenses" className="list-group-item">Food</button>
+					  <button id="1" onClick={this.handleClick} data-toggle="tooltip" data-placement="top" title="View all Grocery Expenses" className="list-group-item">Groceries</button>
+					  <button id="2" onClick={this.handleClick} data-toggle="tooltip" data-placement="top" title="View all Rent Expenses" className="list-group-item">Rent</button>
+					  <button id="3" onClick={this.handleClick} data-toggle="tooltip" data-placement="top" title="View all Household Expenses" className="list-group-item">Household</button>
+					  <button id="4" onClick={this.handleClick} data-toggle="tooltip" data-placement="top" title="View all Electronics Expenses" className="list-group-item">Electronics</button>
+					  <button id="5" onClick={this.handleClick} data-toggle="tooltip" data-placement="top" title="View all Travel/Commute Expenses" className="list-group-item">Travel/Commute</button>
+					  <button id="6" onClick={this.handleClick} data-toggle="tooltip" data-placement="top" title="View all Stationery Expenses" className="list-group-item">Stationery</button>
+					  <button id="7" onClick={this.handleClick} data-toggle="tooltip" data-placement="top" title="View all Miscellaneous Expenses" className="list-group-item">Miscellaneous</button>
 					</div>
 		      	</div>
 		      	<div className="row col-sm-6">

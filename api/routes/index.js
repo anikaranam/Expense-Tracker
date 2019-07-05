@@ -3,6 +3,10 @@ var router = express.Router();
 var mysql = require('mysql');
 var crypto = require('crypto');
 require('dotenv').config();
+var jsonexport = require('jsonexport');
+var fs = require('fs');
+const nodemailer = require('nodemailer');
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -167,12 +171,78 @@ router.get('/expenses', function(req, res, next) {
 
 	let name = req.query["name"];
 	let type = req.query["type"];
+	let month = req.query["month"];
+	let year = req.query["year"];
+	
 
 	console.log(name + ' ' + type);
 
 	con.query("SELECT Name, Date, Cost FROM Expenses WHERE Username = '" + name + "' AND Type = '" + type + "'", function (err, result, fields) {
 			if (err) throw err;
 	    	res.send(result);	
+		});
+
+	con.end();
+
+});
+
+/**		Downloading CSV File 	**/
+router.post('/list', function(req,res,next) {
+	//res.send('ok');
+
+	let name = req.query["name"];
+
+	var con = mysql.createConnection({
+	  host: "localhost",
+	  user: "root",
+	  password: process.env.REACT_APP_MYSQL_PASSWORD,
+	  database: "Hello"
+	});
+
+	con.connect();
+
+	con.query("SELECT Name, Date, Type, Cost FROM Expenses WHERE Username = '" + name + "'", function (err, result, fields) {
+			if (err) throw err;
+ 
+			jsonexport(result,function(err, csv){
+			    if(err) return console.log(err);
+			    console.log(csv);
+			    //res.send(csv);
+
+			    fs.writeFile('DownloadedCSV.csv', csv, function (err) {
+				  if (err) throw err;
+				  console.log('Saved!');
+				});
+
+				const transporter = nodemailer.createTransport({ // Use an app specific password here
+				  service: 'Gmail',
+				  auth: {
+				    user: 'email@gmail.com',
+				    pass: 'password'
+				  }
+				});
+
+				const options = {
+				    from: 'email@gmail.com',
+				    to: 'test@gmail.com',
+				    subject: 'Test',
+				    text: 'Hello World'
+				};
+
+				transporter.sendMail(options, (error, info) =>{
+				    if(error) {
+				        //...
+				        console.log(error);
+				    } else {
+				        //...
+				        console.log('successful');
+				    }
+				});
+
+
+			});
+
+	    	res.send('File downloaded successfully!');	
 		});
 
 	con.end();
