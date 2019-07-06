@@ -186,6 +186,78 @@ router.get('/expenses', function(req, res, next) {
 
 });
 
+/**		SEND EMAIL 		**/
+router.get('/mail', function(req,res,next) {
+	let name = req.query["name"];
+	let email = req.query["email"];
+
+	var con = mysql.createConnection({
+	  host: "localhost",
+	  user: "root",
+	  password: process.env.REACT_APP_MYSQL_PASSWORD,
+	  database: "Hello"
+	});
+
+	con.connect();
+
+	con.query("SELECT Name, Date, Type, Cost FROM Expenses WHERE Username = '" + name + "'", function (err, result, fields) {
+			if (err) throw err;
+ 
+			jsonexport(result,function(err, csv){
+			    if(err) return console.log(err);
+			    console.log(csv);
+			    //res.send(csv);
+
+			    fs.writeFile('Expenses.csv', csv, function (err) {
+				  if (err) throw err;
+				  console.log('Saved!');
+				});
+
+				const transporter = nodemailer.createTransport({ // Use an app specific password here
+				  service: 'Gmail',
+				  auth: {
+				    user: 'track.expense.app@gmail.com',
+				    pass: process.env.REACT_APP_EMAIL_PASSWORD
+				  }
+				});
+
+				const options = {
+				    from: 'track.expense.app@gmail.com',
+				    to: email,
+				    subject: name + "'s Expense List",
+				    text: 'Please find attached the list of expenses',
+				    attachments: [
+				    	{
+				    		path: 'Expenses.csv'
+				    	}
+				    ]
+				};
+
+				transporter.sendMail(options, (error, info) =>{
+				    if(error) {
+				        //...
+				        console.log(error);
+				    } else {
+				        //...
+				        console.log('successful');
+				    }
+				});
+
+				/*try {
+				  fs.unlinkSync('Expenses.csv');
+				  //file removed
+				} catch(err) {
+				  console.error(err)
+				}*/
+
+			});
+
+	    	res.send('File emailed successfully!');	
+		});
+
+	con.end();
+});
+
 /**		Downloading CSV File 	**/
 router.post('/list', function(req,res,next) {
 	//res.send('ok');
@@ -213,32 +285,6 @@ router.post('/list', function(req,res,next) {
 				  if (err) throw err;
 				  console.log('Saved!');
 				});
-
-				const transporter = nodemailer.createTransport({ // Use an app specific password here
-				  service: 'Gmail',
-				  auth: {
-				    user: 'email@gmail.com',
-				    pass: 'password'
-				  }
-				});
-
-				const options = {
-				    from: 'email@gmail.com',
-				    to: 'test@gmail.com',
-				    subject: 'Test',
-				    text: 'Hello World'
-				};
-
-				transporter.sendMail(options, (error, info) =>{
-				    if(error) {
-				        //...
-				        console.log(error);
-				    } else {
-				        //...
-				        console.log('successful');
-				    }
-				});
-
 
 			});
 

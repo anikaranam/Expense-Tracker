@@ -12,6 +12,7 @@ class ProfilePage extends React.Component {
 		this.handleClick = this.handleClick.bind(this)
 		this.changeMonth = this.changeMonth.bind(this)
 		this.downloadCSV = this.downloadCSV.bind(this)
+		this.sendEmail = this.sendEmail.bind(this)
 		this.state = {
 			addName: '',
 			addUserName: '',
@@ -24,6 +25,18 @@ class ProfilePage extends React.Component {
 				Date: ''
 			}]
 		}
+	}
+
+	sendEmail() {
+		var email = prompt("Please enter the email ID to receive the attachment", "email@gmail.com");
+		fetch("http://localhost:9000/mail?name=" + document.getElementById('headertitle').innerHTML + "&email=" + email)
+        .then(res => res.json())
+        .then((data) => {
+          console.log('email delivery successful');
+        })
+        .catch(() => {
+          console.log();
+        });
 	}
 
 	/** 	click handler for download button 	**/
